@@ -25,7 +25,7 @@ const countSucceeded = (runResult) => countTests(runResult, t => t.status === Te
 
 const countFailed = (runResult) => countTests(runResult, t => t.status === TestStatus.Failed);
 
-const file = (filePath, mutated = true, included = true) => ({ path: path.resolve(filePath), mutated, included });
+const file = (filePath) => path.resolve(filePath);
 
 describe('LabTestRunner', () => {
 
@@ -35,11 +35,15 @@ describe('LabTestRunner', () => {
 
         beforeEach((done) => {
             const testRunnerOptions = {
-                files: [
+                fileNames: [
                     file('./test-resources/sample-project/src/my-math.js'),
                     file('./test-resources/sample-project/test/my-math.js')
                 ],
-                strykerOptions: {},
+                strykerOptions: {
+                    labOptions: {
+                        files: ['**/*.js']
+                    }
+                },
                 port: 1234
             };
             sut = new LabTestRunner(testRunnerOptions);
@@ -70,12 +74,16 @@ describe('LabTestRunner', () => {
     describe('with an error in an unincluded input file', () => {
         beforeEach((done) => {
             const options = {
-                files: [
+                fileNames: [
                     file('test-resources/sample-project/src/my-math.js'),
-                    file('test-resources/sample-project/src/error.js', false, false),
+                    file('test-resources/sample-project/src/error.js'),
                     file('test-resources/sample-project/test/my-math.js')
                 ],
-                strykerOptions: {},
+                strykerOptions: {
+                    labOptions: {
+                        files: ['**/my-math.js']
+                    }
+                },
                 port: 1234
             };
             sut = new LabTestRunner(options);
@@ -94,11 +102,15 @@ describe('LabTestRunner', () => {
 
         before((done) => {
             sut = new LabTestRunner({
-                files: [
+                fileNames: [
                     file('test-resources/sample-project/src/my-math.js'),
                     file('test-resources/sample-project/test/my-math-failed.js')
                 ],
-                strykerOptions: {},
+                strykerOptions: {
+                    labOptions: {
+                        files: ['**/*.js']
+                    }
+                },
                 port: 1234
             });
             done();

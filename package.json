@@ -1,10 +1,10 @@
 {
   "name": "stryker-lab-runner",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A plugin to use the Lab test runner in Stryker, the JavaScript mutation testing framework",
   "main": "lib/index.js",
   "scripts": {
-    "test": "lab -L test",
+    "test": "lab -L test --leaks",
     "lint": "eslint .",
     "validate": "nsp check"
   },
@@ -40,5 +40,8 @@
     "lint",
     "validate",
     "test"
-  ]
+  ],
+  "dependencies": {
+    "multimatch": "^2.1.0"
+  }
 }
