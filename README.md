@@ -26,12 +26,10 @@ In order to use Lab as the test runner, you simply specify it in your config fil
 ```js
 module.exports = (config) => {
     config.set({
-        files: ['test/**/*.js', {
-            pattern: 'lib/**/*.js',
-            included: false,
-            mutated: true
-        }],
         testRunner: 'lab',
+        labOptions: {
+            files: ['test/**/*.js']
+        },
         reporter: [
             'progress',
             'clear-text',
@@ -40,10 +38,7 @@ module.exports = (config) => {
             'event-recorder'
         ],
         coverageAnalysis: 'off',
-        plugins: [
-            'stryker-lab-runner',
-            'stryker-html-reporter'
-        ]
+        mutate: ['lib/**/*.js']
     });
 };
 ```
